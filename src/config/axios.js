@@ -7,7 +7,7 @@ axios.defaults.baseURL = API_ENDPOINT;
 axios.interceptors.request.use(
   (config) => {
     const token = getAccessToken();
-    console.log(token); // เป็น null ใน register
+    // console.log(token); // เป็น null ใน register
     if (token) {
       config.headers["Authorization"] = "Bearer " + token;
     }

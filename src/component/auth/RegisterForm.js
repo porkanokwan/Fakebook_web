@@ -1,6 +1,8 @@
 import { useContext, useState } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import validator from "validator";
+import { ErrorContext } from "../../contexts/ErrorContext";
+import validate from "../../validate/Validate";
 
 function RegisterForm({ closeModal }) {
   const [firstName, setFirstName] = useState("");
@@ -8,7 +10,7 @@ function RegisterForm({ closeModal }) {
   const [emailOrphone, setemailOrPhone] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfrimPassword] = useState("");
-  const [error, setError] = useState({
+  const [error, setErrorValidate] = useState({
     errFirstName: "",
     errLastName: "",
     errEmailOrPhone: "",
@@ -17,58 +19,20 @@ function RegisterForm({ closeModal }) {
   });
 
   const value = useContext(AuthContext);
+  const { setError } = useContext(ErrorContext);
 
   const handleSignUp = async (e) => {
     try {
       e.preventDefault();
       // validate ก่อน
-      if (validator.isEmpty(firstName)) {
-        setError((prev) => ({
-          ...prev,
-          errFirstName: "FirstName is required",
-        }));
-      } else {
-        setError((prev) => ({ ...prev, errFirstName: "" }));
-      }
-
-      if (validator.isEmpty(lastName)) {
-        setError((prev) => ({ ...prev, errLastName: "LastName is required" }));
-      } else {
-        setError((prev) => ({ ...prev, errLastName: "" }));
-      }
-
-      if (
-        !(
-          validator.isEmail(emailOrphone) ||
-          validator.isMobilePhone(emailOrphone)
-        )
-      ) {
-        setError((prev) => ({ ...prev, errEmailOrPhone: "Invalid Format" }));
-      } else {
-        setError((prev) => ({ ...prev, errEmailOrPhone: "" }));
-      }
-
-      if (validator.isEmpty(password)) {
-        setError((prev) => ({ ...prev, errPassword: "Password is required" }));
-      } else if (password.length < 4) {
-        setError((prev) => ({
-          ...prev,
-          errPassword: "password must be greater than 4 characters",
-        }));
-      } else {
-        setError((prev) => ({ ...prev, errPassword: "" }));
-      }
-
-      if (validator.isEmpty(confirmPassword)) {
-        setError((prev) => ({
-          ...prev,
-          errConfirm: "Confirm Password is required",
-        }));
-      } else if (password !== confirmPassword) {
-        setError((prev) => ({ ...prev, errConfirm: "password not match" }));
-      } else {
-        setError((prev) => ({ ...prev, errConfirm: "" }));
-      }
+      // validate({
+      //   firstName,
+      //   lastName,
+      //   emailOrphone,
+      //   password,
+      //   confirmPassword,
+      //   setErrorValidate,
+      // });
 
       // signup ทำงานแบบ async แล้ว return เป็น promise ในนี้เลยต้อง handle แบบ promise
       await value.signup({
@@ -81,7 +45,8 @@ function RegisterForm({ closeModal }) {
 
       closeModal();
     } catch (err) {
-      console.log(err);
+      console.log(err); // AxiosError{request: {}, response: {data:{message:""}}}
+      setError(err.response.data.message);
     }
   };
 
