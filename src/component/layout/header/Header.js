@@ -1,4 +1,3 @@
-import { Outlet } from "react-router-dom";
 import Dropdown from "./Dropdown";
 import Logo from "./Logo";
 import Menu from "./Menu";
@@ -18,7 +17,6 @@ function Header() {
           </div>
         </div>
       </nav>
-      <Outlet />
     </>
   );
 }
