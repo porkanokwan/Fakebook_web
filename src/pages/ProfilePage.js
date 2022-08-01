@@ -1,4 +1,4 @@
-import ProfileContainer from "../profile/ProfileContainer";
+import ProfileContainer from "../component/profile/ProfileContainer";
 
 function ProfilePage() {
   return <ProfileContainer />;

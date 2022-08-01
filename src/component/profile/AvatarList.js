@@ -1,4 +1,4 @@
-import UserIcon from "../component/common/UserIcon";
+import UserIcon from "../common/UserIcon";
 import { useNavigate } from "react-router-dom";
 
 function AvatarList({ friends }) {

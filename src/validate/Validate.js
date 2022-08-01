@@ -66,4 +66,8 @@ export function validate({
   }
 }
 
-export default validate;
+export const validatePost = (title, postPic, setError) => {
+  if (validator.isEmpty(title) && !validator.isURL(postPic)) {
+    setError("title or picture is require");
+  }
+};

@@ -1,10 +1,10 @@
 import axios from "axios";
 import { Modal } from "bootstrap";
-import UserIcon from "../component/common/UserIcon";
+import UserIcon from "../common/UserIcon";
 import { useContext, useEffect, useRef, useState } from "react";
-import { AuthContext } from "../contexts/AuthContext";
-import { ErrorContext } from "../contexts/ErrorContext";
-import Spinner from "../component/common/Spinner";
+import { AuthContext } from "../../contexts/AuthContext";
+import { ErrorContext } from "../../contexts/ErrorContext";
+import Spinner from "../common/Spinner";
 import CoverPhoto from "./CoverPhoto";
 
 function ModalProfile({ open, onClose }) {
@@ -107,7 +107,10 @@ function ModalProfile({ open, onClose }) {
                       </button>
                       <button
                         className="btn btn-link text-decoration-none hover-bg-gray-100"
-                        onClick={() => setImages(null)}
+                        onClick={() => {
+                          setImages(null);
+                          profilePicInputEL.current.value = "";
+                        }}
                       >
                         Cancle
                       </button>
@@ -153,7 +156,10 @@ function ModalProfile({ open, onClose }) {
                     </button>
                     <button
                       className="btn btn-link text-decoration-none hover-bg-gray-100"
-                      onClick={() => setCoverPhoto(null)}
+                      onClick={() => {
+                        setCoverPhoto(null);
+                        coverPhotoInputEL.current.value = "";
+                      }}
                     >
                       Cancle
                     </button>

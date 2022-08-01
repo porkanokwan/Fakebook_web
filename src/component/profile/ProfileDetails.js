@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
-import UserIcon from "../component/common/UserIcon";
-import { AuthContext } from "../contexts/AuthContext";
+import UserIcon from "../common/UserIcon";
+import { AuthContext } from "../../contexts/AuthContext";
 import AvatarList from "./AvatarList";
 import ModalProfile from "./ModalProfile";
 

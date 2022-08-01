@@ -1,4 +1,4 @@
-import defaultCoverPhoto from "../asset/img/cover.jpg";
+import defaultCoverPhoto from "../../asset/img/cover.jpg";
 
 function CoverPhoto({ src }) {
   return (

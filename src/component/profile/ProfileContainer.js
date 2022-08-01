@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import Spinner from "../component/common/Spinner";
-import axios from "../config/axios";
-import { ErrorContext } from "../contexts/ErrorContext";
+import Spinner from "../common/Spinner";
+import axios from "../../config/axios";
+import { ErrorContext } from "../../contexts/ErrorContext";
 import CoverPhoto from "./CoverPhoto";
 import ProfileDetails from "./ProfileDetails";
 
