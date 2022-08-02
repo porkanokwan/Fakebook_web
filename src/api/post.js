@@ -6,3 +6,11 @@ export const createPost = (title, postPic) => {
   formData.append("post_pic", postPic);
   return axios.post("/posts", formData);
 };
+
+export const getAllPost = () => {
+  return axios.get("/users/posts");
+};
+
+export const createComment = (title, postId) => {
+  return axios.post(`/comment/${postId}`, { title });
+};

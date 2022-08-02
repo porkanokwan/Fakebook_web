@@ -67,7 +67,10 @@ export function validate({
 }
 
 export const validatePost = (title, postPic, setError) => {
-  if (validator.isEmpty(title) && !validator.isURL(postPic)) {
+  const post = postPic ? "picture" : "";
+
+  console.log(post);
+  if (validator.isEmpty(title) && validator.isEmpty(post)) {
     setError("title or picture is require");
   }
 };
