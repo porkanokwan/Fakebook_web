@@ -7,6 +7,7 @@ import PostForm from "../../form/PostForm";
 import { deletePost } from "../../../../api/post";
 import { usePost } from "../../../../contexts/PostContext";
 import { deletePostAction } from "../../../../action/postAction";
+import { useError } from "../../../../contexts/ErrorContext";
 
 function PostHeader({ post }) {
   const [open, setOpen] = useState(false);
@@ -15,6 +16,7 @@ function PostHeader({ post }) {
     createdAt,
   } = post;
   const { dispatch } = usePost();
+  const { setError } = useError();
 
   const onClose = () => setOpen(false);
 
@@ -23,7 +25,7 @@ function PostHeader({ post }) {
       await deletePost(post.id);
       dispatch(deletePostAction({ postId: post.id }));
     } catch (err) {
-      console.log(err);
+      setError(err.response.data.message);
     }
   };
 

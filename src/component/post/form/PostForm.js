@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { createPost, updatePost } from "../../../api/post";
-import { ErrorContext } from "../../../contexts/ErrorContext";
+import { useError } from "../../../contexts/ErrorContext";
 import { AuthContext } from "../../../contexts/AuthContext";
 import SaveButton from "./SaveButton";
 import TextArea from "./TextArea";
@@ -15,7 +15,7 @@ function PostForm({ open, onClose, post }) {
   const [title, setTitle] = useState("");
   const [postPic, setPostPic] = useState("");
   const [loading, setLoading] = useState(false);
-  const { setError } = useContext(ErrorContext);
+  const { setError } = useError();
   const { dispatch } = usePost();
 
   const handleClickSavePost = async () => {
@@ -32,7 +32,7 @@ function PostForm({ open, onClose, post }) {
       }
       onClose();
     } catch (err) {
-      console.log(err);
+      setError(err.response.data.message);
     } finally {
       setLoading(false);
     }

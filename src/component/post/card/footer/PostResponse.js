@@ -1,12 +1,14 @@
 import { initPost } from "../../../../action/postAction";
 import { createLike, deleteLike, getAllPost } from "../../../../api/post";
 import { useAuth } from "../../../../contexts/AuthContext";
+import { useError } from "../../../../contexts/ErrorContext";
 import { usePost } from "../../../../contexts/PostContext";
 
 function PostResponse({ showComment, post: { id, Likes: likes } }) {
   const { user } = useAuth();
   const isLiked = likes.find((like) => like.user_id === user.id);
   const { dispatch } = usePost();
+  const { setError } = useError();
 
   const handleClickLike = async () => {
     try {
@@ -18,7 +20,7 @@ function PostResponse({ showComment, post: { id, Likes: likes } }) {
       const res = await getAllPost();
       dispatch(initPost(res.data.posts));
     } catch (err) {
-      console.log(err);
+      setError(err.response.data.message);
     }
   };
 
