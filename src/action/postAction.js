@@ -1,6 +1,7 @@
 export const INIT = "init";
 export const CREATE_COMMENT = "createComment";
 export const DELETE_COMMNET = "deleteComment";
+export const UPDATE_COMMNET = "updateComment";
 export const UPDATE_POST = "updatePost";
 export const DELETE_POST = "deletePost";
 
@@ -16,6 +17,11 @@ export const createCommentAction = (payload) => ({
 
 export const deleteCommentAction = (payload) => ({
   type: DELETE_COMMNET,
+  payload,
+});
+
+export const updateCommentAction = (payload) => ({
+  type: UPDATE_COMMNET,
   payload,
 });
 

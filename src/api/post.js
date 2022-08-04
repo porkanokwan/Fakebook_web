@@ -30,6 +30,10 @@ export const deleteComment = (comment_id, post_id) => {
   return axios.delete(`/comment/${comment_id}/post/${post_id}`);
 };
 
+export const updateComment = (comment_id, title) => {
+  return axios.patch(`/comment/${comment_id}`, { title });
+};
+
 export const createLike = (post_id) => {
   return axios.post(`/posts/${post_id}/like`);
 };

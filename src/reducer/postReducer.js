@@ -4,6 +4,7 @@ import {
   DELETE_COMMNET,
   UPDATE_POST,
   DELETE_POST,
+  UPDATE_COMMNET,
 } from "../action/postAction";
 
 export const initial = {
@@ -48,6 +49,21 @@ export default function postReducer(state, action) {
         commentMapping: {
           ...state.commentMapping,
           [action.payload.postId]: newComments,
+        },
+      };
+    }
+
+    case UPDATE_COMMNET: {
+      const newComment = [...state.commentMapping[action.payload.postId]];
+      const idx = newComment.findIndex(
+        (el) => el.id === action.payload.commentId
+      );
+      newComment[idx] = { ...action.payload.comment };
+      return {
+        ...state,
+        commentMapping: {
+          ...state.commentMapping,
+          [action.payload.postId]: newComment,
         },
       };
     }
