@@ -1,7 +1,10 @@
+import { usePost } from "../../../../contexts/PostContext";
 import CommentList from "./CommentList";
 import NewCommentBox from "./NewCommentBox";
 
-function CommentContainer({ post: { id, Comments: comments } }) {
+function CommentContainer({ post: { id } }) {
+  const { commentMapping } = usePost();
+  const comments = commentMapping[id];
   return (
     <div className="pb-2">
       <hr className="my-0 hr-sm" />
@@ -12,7 +15,7 @@ function CommentContainer({ post: { id, Comments: comments } }) {
           </button>
         )}
       </div>
-      <CommentList comments={comments} />
+      <CommentList comments={comments} postId={id} />
       <NewCommentBox postId={id} />
     </div>
   );

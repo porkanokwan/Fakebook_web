@@ -22,7 +22,9 @@ function UploadImage({ onChange, value, onDelete }) {
               }}
             />
             <img
-              src={URL.createObjectURL(value)}
+              src={
+                typeof value === "string" ? value : URL.createObjectURL(value)
+              }
               alt="postPic"
               className="img-fluid"
             />
@@ -38,12 +40,16 @@ function UploadImage({ onChange, value, onDelete }) {
             <div className="mt-1">Add Photos</div>
           </div>
         )}
-        <input
-          type="file"
-          className="d-none"
-          ref={inputEl}
-          onChange={onChange}
-        />
+        {value !== "" && typeof value === "string" ? (
+          <input type="file" className="d-none" ref={inputEl} disabled />
+        ) : (
+          <input
+            type="file"
+            className="d-none"
+            ref={inputEl}
+            onChange={onChange}
+          />
+        )}
       </div>
     </>
   );

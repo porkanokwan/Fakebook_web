@@ -1,13 +1,30 @@
 import { Link } from "react-router-dom";
 import UserIcon from "../../../common/UserIcon";
 import { timeSince } from "../../../../service/dateFormat";
+import { useAuth } from "../../../../contexts/AuthContext";
+import { deleteComment } from "../../../../api/post";
+import { usePost } from "../../../../contexts/PostContext";
+import { deleteCommentAction } from "../../../../action/postAction";
 
-function CommentItem({ comment }) {
+function CommentItem({ comment, postId }) {
+  const { user } = useAuth();
+  const { dispatch } = usePost();
   const {
     User: { id, firstName, lastName, profilePic },
     updatedAt,
     title,
+    id: commentId,
   } = comment;
+
+  const handleClickDelete = async () => {
+    try {
+      await deleteComment(commentId, postId);
+      dispatch(deleteCommentAction({ commentId, postId }));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div className="d-flex">
       <Link to={"/profile/" + id}>
@@ -26,22 +43,28 @@ function CommentItem({ comment }) {
             <small>{title}</small>
           </div>
 
-          <div className="dropdown ms-1">
-            <button
-              className="btn rounded-circle h-8 w-8 position-relative hover-bg-gray-200 shadow-none"
-              data-bs-toggle="dropdown"
-            >
-              <i className="fa-solid fa-ellipsis text-muted position-absolute top-50 left-50 translate-middle" />
-            </button>
-            <div className="dropdown-menu">
-              <button className="dropdown-item" type="button">
-                Edit
+          {user.id === id && (
+            <div className="dropdown ms-1">
+              <button
+                className="btn rounded-circle h-8 w-8 position-relative hover-bg-gray-200 shadow-none"
+                data-bs-toggle="dropdown"
+              >
+                <i className="fa-solid fa-ellipsis text-muted position-absolute top-50 left-50 translate-middle" />
               </button>
-              <button className="dropdown-item" type="button">
-                Delete
-              </button>
+              <div className="dropdown-menu">
+                <button className="dropdown-item" type="button">
+                  Edit
+                </button>
+                <button
+                  className="dropdown-item"
+                  type="button"
+                  onClick={handleClickDelete}
+                >
+                  Delete
+                </button>
+              </div>
             </div>
-          </div>
+          )}
         </div>
 
         <span className="text-muted ms-2 text-3">{timeSince(updatedAt)}</span>

@@ -18,7 +18,7 @@ function PostFooter({ post }) {
     <>
       <PostFeedback toggleShow={toggleShow} post={post} />
       <hr className="hr-sm my-0" />
-      <PostResponse showComment={showComment} />
+      <PostResponse showComment={showComment} post={post} />
       {show && <CommentContainer post={post} />}
     </>
   );

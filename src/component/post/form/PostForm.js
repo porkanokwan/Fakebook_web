@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { createPost } from "../../../api/post";
+import { createPost, updatePost } from "../../../api/post";
 import { ErrorContext } from "../../../contexts/ErrorContext";
 import { AuthContext } from "../../../contexts/AuthContext";
 import SaveButton from "./SaveButton";
@@ -7,20 +7,29 @@ import TextArea from "./TextArea";
 import UploadImage from "./UploadImage";
 import { validatePost } from "../../../validate/Validate";
 import Spinner from "../../common/Spinner";
+import { usePost } from "../../../contexts/PostContext";
+import { updatePostAction } from "../../../action/postAction";
 
-function PostForm({ open, onClose }) {
+function PostForm({ open, onClose, post }) {
   const { user } = useContext(AuthContext);
   const [title, setTitle] = useState("");
   const [postPic, setPostPic] = useState("");
   const [loading, setLoading] = useState(false);
   const { setError } = useContext(ErrorContext);
+  const { dispatch } = usePost();
 
   const handleClickSavePost = async () => {
     try {
       setLoading(true);
       // validate
       validatePost(title, postPic, setError);
-      await createPost(title, postPic);
+      if (post) {
+        const res = await updatePost(title, postPic, post.id);
+        console.log(res);
+        dispatch(updatePostAction({ postId: post.id, newPost: res.data.post }));
+      } else {
+        await createPost(title, postPic);
+      }
       onClose();
     } catch (err) {
       console.log(err);
@@ -30,8 +39,8 @@ function PostForm({ open, onClose }) {
   };
 
   useEffect(() => {
-    setTitle("");
-    setPostPic("");
+    setTitle(post?.title || title);
+    setPostPic(post?.postPic || postPic);
   }, [open]);
 
   return (
