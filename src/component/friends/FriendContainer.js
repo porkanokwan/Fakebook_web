@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "../../config/axios";
 import Spinner from "../common/Spinner";
+import { useError } from "../../contexts/ErrorContext";
 
 let title;
 const getTitle = (pathname) => {
@@ -37,13 +38,14 @@ function FriendContainer() {
   const { pathname } = useLocation();
   const [friends, setFriends] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { setError } = useError();
 
   const fetchData = async () => {
     try {
       const res = await fetchUser(pathname);
       setFriends(res.data.users);
     } catch (err) {
-      console.log(err);
+      setError(err.response.data.message);
     } finally {
       setLoading(false);
     }

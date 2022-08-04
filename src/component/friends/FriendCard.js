@@ -1,37 +1,39 @@
 import UserCard from "../common/UserCard";
 import { Link, useLocation } from "react-router-dom";
 import axios from "../../config/axios";
+import { useError } from "../../contexts/ErrorContext";
 
 function FriendCard({
   friends: { id, firstName, lastName, profilePic },
   fetchData,
 }) {
   const { pathname } = useLocation();
+  const { setError } = useError();
 
   const handleClickAddFriend = async () => {
     try {
       await axios.post("/friends", { request_to_id: id });
       await fetchData();
     } catch (err) {
-      console.log(err);
+      setError(err.response.data.message);
     }
   };
 
-  //   const handleClickDeleteFriend = async () => {
-  //     try {
-  //       await axios.delete("/friends/" + "id");
-  //       await fetchData();
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   };
+  const handleClickDeleteFriend = async () => {
+    try {
+      await axios.delete("/friends/" + "id");
+      await fetchData();
+    } catch (err) {
+      setError(err.response.data.message);
+    }
+  };
 
   const handleClickAcceptFriend = async () => {
     try {
       await axios.patch("/friends/" + id, { status: "accepted" });
       await fetchData();
     } catch (err) {
-      console.log(err);
+      setError(err.response.data.message);
     }
   };
 
@@ -58,7 +60,7 @@ function FriendCard({
                 </button>
                 <button
                   className="btn btn-gray-200 text-3.5"
-                  onClick={() => console.log("Delete friends")}
+                  onClick={handleClickDeleteFriend}
                 >
                   Delete
                 </button>
@@ -73,7 +75,7 @@ function FriendCard({
             ) : (
               <button
                 className="btn btn-primary text-3.5"
-                // onClick={handleClickDeleteFriend}
+                onClick={handleClickDeleteFriend}
               >
                 Delete Friend
               </button>

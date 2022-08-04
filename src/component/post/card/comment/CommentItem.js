@@ -10,6 +10,7 @@ import {
 } from "../../../../action/postAction";
 import { useState } from "react";
 import CommentBox from "../../../common/CommentBox";
+import { useError } from "../../../../contexts/ErrorContext";
 
 function CommentItem({ comment, postId }) {
   const { user } = useAuth();
@@ -22,13 +23,14 @@ function CommentItem({ comment, postId }) {
   } = comment;
   const [inputEdit, setInputEdit] = useState(false);
   const [titleComment, setTitleComment] = useState(title);
+  const { setError } = useError();
 
   const handleClickDelete = async () => {
     try {
       await deleteComment(commentId, postId);
       dispatch(deleteCommentAction({ commentId, postId }));
     } catch (err) {
-      console.log(err);
+      setError(err.response.data.message);
     }
   };
 
@@ -46,7 +48,7 @@ function CommentItem({ comment, postId }) {
       );
       setInputEdit(false);
     } catch (err) {
-      console.log(err);
+      setError(err.response.data.message);
     }
   };
 
